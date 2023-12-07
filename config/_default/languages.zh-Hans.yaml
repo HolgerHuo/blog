@@ -1,0 +1,40 @@
+languageCode: zh-Hans
+languageName: 中文
+languageDirection: ltr
+weight: 1
+params:
+  dateFormat: 2006年January2日
+  author:
+    name: Holger Huo
+    image: images/author-image.png
+    headline: 你好 👋 我是一名印地语本科生，同时也是科技与开源的爱好者。我会在博客中记录有关技术、语言与我的生活相关的内容。欢迎你的关注！
+    links:
+      - email: mailto:i@holger.one
+      - facebook: https://www.facebook.com/HolgerHuo/
+      - github: https://github.com/HolgerHuo
+      - instagram: https://www.instagram.com/holgerhuo/
+      - lastfm: https://last.fm/user/holger_huo
+      - mastodon: https://mast.dragon-fly.club/@holgerhuo
+      - x-twitter: https://twitter.com/@holger_huo
+  mainSections:
+    - posts
+    - pages
+  description: 编程日志与生活感想。来自一位印地语本科生与业余开发者。
+  article:
+    sharingLinks:
+      - weibo
+      - douban
+      - qq
+      - mastodon
+      - twitter
+      - email
+      - facebook
+      - telegram
+  keywords:
+    - 开源
+    - 编程
+    - 生活
+    - 开发
+    - 科技
+    - 博客
+    - Linux

@@ -1,0 +1,38 @@
+languageCode: en
+languageName: English
+languageDirection: ltr
+weight: 2
+params:
+  dateFormat: 2 January 2006
+  author:
+    name: Holger Huo
+    image: images/author-image.png
+    headline: Hey 👋 I'm Holger Huo, an undergraduate studying Hindi, a tech enthusiatic, and also a full-stack developer. I will share my ideas on technology, languages, and my life here. Welcome to follow me if you're interested!
+    links:
+      - email: mailto:i@holger.one
+      - facebook: https://www.facebook.com/HolgerHuo/
+      - github: https://github.com/HolgerHuo
+      - instagram: https://www.instagram.com/holgerhuo/
+      - lastfm: https://last.fm/user/holger_huo
+      - mastodon: https://mast.dragon-fly.club/@holgerhuo
+      - x-twitter: https://twitter.com/@holger_huo
+  description: Ideas on technology, languages, and life. From a part-time developer and undergraduate studying Hindi.
+  article:
+    sharingLinks:
+      - mastodon
+      - telegram
+      - twitter
+      - email
+      - facebook
+      - reddit
+      - weibo
+      - douban
+  keywords:
+    - open-source
+    - developing
+    - linux
+    - hindi
+    - languages
+    - IT
+    - tech
+    - blog

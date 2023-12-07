@@ -1,0 +1,13 @@
+title: Holger's Blog
+baseURL: https://holger.one/
+
+theme: congo
+paginate: 10
+cleanDestinationDir: true
+defaultContentLanguage: zh-Hans
+enableRobotsTXT: true
+hasCJKLanguage: true
+languageCode: zh-Hans
+timeZone: Asia/Singapore
+removePathAccents: true
+summaryLength: 0

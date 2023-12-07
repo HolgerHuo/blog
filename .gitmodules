@@ -1,0 +1,4 @@
+[submodule "themes/congo"]
+	path = themes/congo
+	url = https://github.com/holgerhuo/congo.git
+	branch = main

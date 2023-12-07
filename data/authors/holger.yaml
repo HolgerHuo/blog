@@ -1,0 +1,11 @@
+name_i18n: authors.holger.name
+image: images/author-image.png
+bio_i18n: authors.holger.bio
+links:
+  - email: mailto:i@holger.one
+  - facebook: https://www.facebook.com/HolgerHuo/
+  - github: https://github.com/HolgerHuo
+  - instagram: https://www.instagram.com/holgerhuo/
+  - lastfm: https://last.fm/user/holger_huo
+  - mastodon: https://mast.dragon-fly.club/@holgerhuo
+  - x-twitter: https://twitter.com/@holger_huo
