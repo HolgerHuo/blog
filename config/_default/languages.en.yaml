@@ -1,0 +1,40 @@
+languageCode: en
+languageName: English
+languageDirection: ltr
+weight: 2
+params:
+  dateFormat: 2 January 2006
+  author:
+    name: Holger Huo
+    image: images/author-image.jpg
+    bio: I am studying Hindi for my undergraduate degree and I am a FOSS enthusiast at the same time. I enjoy coming across interesting blogs and reading them and I also write my own pieces. Thanks for following me!
+    headline: I love my cat ❤️
+    links:
+      - email: mailto:i@holger.one
+      - facebook: https://www.facebook.com/HolgerHuo/
+      - github: https://github.com/HolgerHuo
+      - instagram: https://www.instagram.com/holgerhuo/
+      - lastfm: https://last.fm/user/holger_huo
+      - mastodon: https://mast.dragon-fly.club/@holgerhuo
+      - x-twitter: https://twitter.com/@holger_huo
+  description: Holger's personal blog. The author studies Hindi for his undergraduate degree and is a FOSS enthusiast at the same time. This blogs keeps his coding and life experiences. Welcome to explore!
+  article:
+    sharingLinks:
+      - mastodon
+      - telegram
+      - twitter
+      - email
+      - facebook
+      - reddit
+      - weibo
+      - douban
+  keywords:
+    - open-source
+    - code
+    - life
+    - linguistics
+    - hindi
+    - languages
+    - IT
+    - tech
+    - blog

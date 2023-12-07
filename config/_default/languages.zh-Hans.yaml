@@ -1,0 +1,41 @@
+languageCode: zh-Hans
+languageName: 中文
+languageDirection: ltr
+weight: 1
+params:
+  dateFormat: 2006年January2日
+  author:
+    name: Holger Huo
+    image: images/author-image.jpg
+    bio: 作者是一名印地语本科生，同时也热爱参与开源项目，喜欢阅读和撰写博客。感谢你的关注！
+    headline: 我爱小猫❤️
+    links:
+      - email: mailto:i@holger.one
+      - facebook: https://www.facebook.com/HolgerHuo/
+      - github: https://github.com/HolgerHuo
+      - instagram: https://www.instagram.com/holgerhuo/
+      - lastfm: https://last.fm/user/holger_huo
+      - mastodon: https://mast.dragon-fly.club/@holgerhuo
+      - x-twitter: https://twitter.com/@holger_huo
+  mainSections:
+    - posts
+    - pages
+  description: Holger的个人博客。作者是一名印地语本科生，对编程有着浓厚的兴趣，在这里记录一些自己的编程日志以及生活感想，欢迎大家关注！
+  article:
+    sharingLinks:
+      - weibo
+      - douban
+      - qq
+      - mastodon
+      - twitter
+      - email
+      - facebook
+      - telegram
+  keywords:
+    - 开源
+    - 编程
+    - 生活
+    - 语言学
+    - 印地语
+    - 科技
+    - 博客

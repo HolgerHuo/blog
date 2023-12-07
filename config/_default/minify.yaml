@@ -1,0 +1,4 @@
+minifyOutput: true
+tdewolff:
+  html:
+    keepQuotes: true

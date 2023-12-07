@@ -1,0 +1,18 @@
+home:
+  - html
+  - rss
+  - json
+page:
+  - html
+  # - amp
+rss:
+  - rss
+section:
+  - html
+  - rss
+taxonomy:
+  - html
+  - rss
+term:
+  - html
+  - rss
