@@ -91,6 +91,17 @@ CREATE USER mastodon CREATEDB; // 创建数据库
 \q
 ```
 
+如果安装的是 PostgreSQL 15 或以上版本，在登陆PostgreSQL后，执行以下:
+
+```bash
+CREATE DATABASE mastodon;
+\connect mastodon
+CREATE USER mastodon WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE mastodon to mastodon;
+ALTER DATABASE mastodon OWNER TO mastodon;
+GRANT USAGE, CREATE ON SCHEMA PUBLIC TO mastodon;
+```
+
 ### 安装ImageMagick 
 
 ```bash

@@ -31,7 +31,7 @@ showTableOfContents: true
 
 ## 前言
 
-本篇博文是 [Mastodon 完全使用指南 (用户篇)](https://holger.one/posts/a-users-guide-to-21st-century-sns/) 的简洁版，将会向长毛象新住民介绍长毛象的使用方法及注意事项。如果你还不知道长毛象是什么，可以阅读[欢迎加入长毛象宇宙！](https://holger.one/posts/welcome-to-mastodon/)
+本篇博文将会向长毛象新住民介绍长毛象的使用方法及注意事项。如果你还不知道长毛象是什么，可以阅读[欢迎加入长毛象宇宙！](https://holger.one/posts/welcome-to-mastodon/)
 
 ## 快速开始！
 
