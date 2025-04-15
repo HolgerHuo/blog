@@ -37,7 +37,7 @@ article:
   showBreadcrumbs: true
   showDraftLabel: true
   showEdit: true
-  editURL: https://github.com/HolgerHuo/blog/blob/main/content
+  editURL: https://code.dragoncloud.win/holgerhuo/blog/src/branch/main/content
   editAppendPath: true
   showHeadingAnchors: true
   showPagination: true
