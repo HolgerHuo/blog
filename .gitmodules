@@ -1,4 +1,4 @@
 [submodule "themes/congo"]
 	path = themes/congo
-	url = https://github.com/holgerhuo/congo.git
+	url = https://code.dragoncloud.win/holgerhuo/congo.git
 	branch = main
