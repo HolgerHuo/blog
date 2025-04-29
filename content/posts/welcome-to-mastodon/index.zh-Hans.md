@@ -17,7 +17,7 @@ images:
   - feature.jpg
 slug: welcome-to-mastodon
 videos:
-  - https://cdn.holger.one/static/videos/what.is.mastodon.mp4
+  - https://cdn.dragoncloud.win/static/videos/what.is.mastodon.mp4
 type: posts
 showComments: true
 isCJKLanguage: true
@@ -34,7 +34,7 @@ showTableOfContents: true
 
 ## 长毛象是什么？ 
 
-<video autoplay crossorigin="anonymous" controls width="1920" height="1080" poster="https://img.holger.one/posts/welcome-to-mastodon/what_is_mastodon.png"> <source src="https://cdn.holger.one/static/videos/what.is.mastodon.webm" type="video/webm" /> <source src="https://cdn.holger.one/static/videos/what.is.mastodon.mp4" type="video/mp4" /> <track src="https://cdn.holger.one/blog/wim.vtt" label="What is Mastodon?" srclang="zh" kind="subtitles" default/> </video> 
+<video autoplay crossorigin="anonymous" controls width="1920" height="1080" poster="https://img.holger.one/posts/welcome-to-mastodon/what_is_mastodon.png"> <source src="https://cdn.dragoncloud.win/static/videos/what.is.mastodon.webm" type="video/webm" /> <source src="https://cdn.dragoncloud.win/static/videos/what.is.mastodon.mp4" type="video/mp4" /> <track src="https://cdn.dragoncloud.win/blog/wim.vtt" label="What is Mastodon?" srclang="zh" kind="subtitles" default/> </video> 
 
 **长毛象**(_Mastodon_)是一款**微博客型**社交平台，你可以发布嘟文，分享图片，关注/@你的好友，点赞或是评论——就像你能在微博/Twitter中做到的那样。然而长毛象的与众不同之处在于长毛象是一个**平台**，在这个平台上有各式各样性格各异五彩缤纷的独立**社区**，而每一个社区都可以在长毛象这个平台上交流互动；更赞的是，你甚至可以开创一个属于自己的长毛象社区。
 
