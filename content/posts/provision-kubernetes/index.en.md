@@ -135,7 +135,7 @@ This sets up `kube-vip` as a static pod using ARP mode so that `kubelet` will ma
 kubeadm config images pull \
     --cri-socket unix:///var/run/containerd/containerd.sock
 kubeadm init \
-    --control-plane-endpoint vip.k8s.example.com:6443 \ # replace with your vip FQDN or IP
+    --control-plane-endpoint vip.k8s.example.com:6443 # replace with your vip FQDN or IP \
     --cri-socket unix:///var/run/containerd/containerd.sock \
     --upload-certs \
     --service-cidr 172.18.0.0/16 \
