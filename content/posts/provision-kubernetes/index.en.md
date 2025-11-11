@@ -66,7 +66,7 @@ sudo sysctl --system
 sudo mkdir -p /etc/modules-load.d/
 echo overlay | sudo tee /etc/modules-load.d/k8s.conf 
 sudo modprobe overlay
-dnf install epel-release -y
+sudo dnf install epel-release -y
 ```
 
 ## Install `containerd`
