@@ -6,10 +6,6 @@ summary: This guide instructs you to migrate from Pub-Relay to Activity-Relay.
 author: holger
 categories:
   - Programming
-tags:
-  - hugo
-keywords:
-  - hugo # in html metadata
 feature: feature.png
 featureAlt: 
 images:
