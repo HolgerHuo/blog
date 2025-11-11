@@ -66,6 +66,7 @@ sudo sysctl --system
 sudo mkdir -p /etc/modules-load.d/
 echo overlay | sudo tee /etc/modules-load.d/k8s.conf 
 sudo modprobe overlay
+dnf install epel-release -y
 ```
 
 ## Install `containerd`
@@ -75,7 +76,7 @@ sudo modprobe overlay
 ```bash
 sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo dnf install containerd.io 
+sudo dnf install containerd.io -y
 echo "exclude=containerd containerd.io" | sudo tee -a /etc/yum.conf
 containerd config default | sudo tee /etc/containerd/config.toml
 sed -i 's/^[[:space:]]*SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
@@ -114,7 +115,7 @@ On all control plane nodes, we will setup `kube-vip` as a static pod. Replace th
 export VIP=<vip>
 export INTERFACE=<inter-node-network-interface>
 KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
-alias kube-vip="ctr image pull crmirror.lcpu.dev/ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host crmirror.lcpu.dev/ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
+alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
 kube-vip manifest pod \
     --interface $INTERFACE \
     --address $VIP \
