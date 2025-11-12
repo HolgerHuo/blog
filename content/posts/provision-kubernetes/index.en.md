@@ -213,7 +213,7 @@ helm install cilium cilium/cilium --version 1.18.3 \
     --set k8sServiceHost=${API_SERVER_IP} \
     --set k8sServicePort=${API_SERVER_PORT} \
     --set ipam.mode=kubernetes \
-    --set hubble.relay.enabled=true
+    --set hubble.relay.enabled=true \
     --set hubble.peerService.clusterDomain=cluster.local
 
 # Verify installation
@@ -265,7 +265,6 @@ kubectl label node <node_name> openebs.io/engine=mayastor
 
 ```bash
 helm repo add openebs https://openebs.github.io/openebs
-helm repo update
 helm install openebs \
     --namespace openebs openebs/openebs \
     --create-namespace
