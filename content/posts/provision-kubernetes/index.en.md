@@ -337,7 +337,8 @@ helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
     --version 4.12.0 \
     --set externalSnapshotter.enabled=true \
     --set controller.runOnControlPlane=true \
-    --set controller.replicas=2
+    --set controller.replicas=2 \
+    --set externalSnapshotter.customResourceDefinitions.enabled=false # This may be needed if other `csi` is already installed
 ```
 
 ### Create Storage Class
