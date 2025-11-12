@@ -46,7 +46,7 @@ Using MAAS, cloud-init, ansible or similar bare-metal provision tools is strongl
 
 ## Setting Up Host OS
 
-To prepare the host OS for Kubernetes installation, we need to disable swap, firewall, and SELinux, enable IP forwarding, and load the overlay kernel module.
+To prepare the host OS for Kubernetes installation, we need to disable swap, firewall, and SELinux, and enable IP forwarding.
 
 ```bash
 # Disable swap
@@ -62,10 +62,6 @@ net.ipv4.ip_forward = 1
 net.ipv6.conf.all.forwarding = 1
 EOF
 sudo sysctl --system
-# Load overlay module
-sudo mkdir -p /etc/modules-load.d/
-echo overlay | sudo tee /etc/modules-load.d/k8s.conf 
-sudo modprobe overlay
 sudo dnf install epel-release -y
 sudo dnf update -y
 ```
