@@ -1,8 +1,8 @@
 ---
 title: 'Provisioning a Highly-Available Production Kubernetes Cluster'
 date: 2025-11-12T01:27:23+08:00
-description: This documentation will guide you through setting up a production-level High-Available multi-node Kubernetes cluster using kubeadmin, containerd, kube-vip, cilium, and MetalLB.
-summary: This documentation will guide you through setting up a production-level High-Available multi-node Kubernetes cluster using kubeadmin, containerd, kube-vip, cilium, and MetalLB.
+description: This documentation will guide you through setting up a production-level High-Available multi-node Kubernetes cluster using kubeadmin, containerd, kube-vip, cilium, MetalLB, and OpenEBS.
+summary: This documentation will guide you through setting up a production-level High-Available multi-node Kubernetes cluster using kubeadmin, containerd, kube-vip, cilium, MetalLB, and OpenEBS.
 author: holger
 categories:
   - Programming
@@ -30,7 +30,7 @@ draft: false
 showTableOfContents: true
 ---
 
-This documentation will guide you through setting up a production-level High-Available multi-node Kubernetes cluster using `kubeadmin`, `containerd`, `kube-vip`, `cilium`, and `MetalLB`. If you are using a managed Kubernetes service (K8s-as-a-Service) or already have an existing cluster, feel free to skip this section.
+This documentation will guide you through setting up a production-level High-Available multi-node Kubernetes cluster using `kubeadmin`, `containerd`, `kube-vip`, `cilium`, `MetalLB`, and `OpenEBS`. If you are using a managed Kubernetes service (K8s-as-a-Service) or already have an existing cluster, feel free to skip this section.
 
 ## Prerequisites
 
@@ -50,7 +50,8 @@ To prepare the host OS for Kubernetes installation, we need to disable swap, fir
 
 ```bash
 # Disable swap
-sudo swapoff -a # Also check /etc/fstab and systemd.swap
+sudo swapoff -a 
+sudo sed -i '/^[^#].*\s\+swap\s\+.*$/d' /etc/fstab # Also check systemd.swap
 # Disable firewall
 sudo systemctl disable --now firewalld
 # Disable SELinux
@@ -60,9 +61,11 @@ sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1
 net.ipv6.conf.all.forwarding = 1
+vm.nr_hugepages = 1024
 EOF
 sudo sysctl --system
 sudo dnf install epel-release -y
+sudo dnf install wget htop btop curl vim nano git jq -y
 sudo dnf update -y
 ```
 
@@ -197,7 +200,9 @@ helm install cilium cilium/cilium --version 1.18.3 \
     --set kubeProxyReplacement=true \
     --set k8sServiceHost=${API_SERVER_IP} \
     --set k8sServicePort=${API_SERVER_PORT} \
-    --set ipam.mode=kubernetes
+    --set ipam.mode=kubernetes \
+    --set hubble.relay.enabled=true
+    --set hubble.peerService.clusterDomain=cluster.local
 
 # Verify installation
 kubectl -n kube-system exec ds/cilium -- cilium-dbg status | grep KubeProxyReplacement
@@ -234,4 +239,78 @@ spec:
 EOF
 ```
 
+## OpenEBS for Storage
+
+To achieve HA persistent storage, OpenEBS requires at least 3 nodes.
+
+### Label Storage Nodes
+
+```bash
+kubectl label node <node_name> openebs.io/engine=mayastor
+```
+
+### Install OpenEBS
+
+```bash
+helm repo add openebs https://openebs.github.io/openebs
+helm repo update
+helm install openebs \
+    --namespace openebs openebs/openebs \
+    --create-namespace
+```
+
+### Setup Storage Class
+
+Now you should already have `openebs-hostpath` and `openebs-single-replica` storage classes available. But `openebs-single-replica` still doesn't have a storage pool yet.
+
+
+#### Setup Mayastor Disk Pool
+
+```bash
+kubectl get sc # show predefined storage classes
+kubectl mayastor get block-devices # show available block devices
+cat <<EOF | kubectl create -f -
+apiVersion: "openebs.io/v1beta3"
+kind: DiskPool
+metadata:
+  name: pool-on-node-1
+  namespace: openebs
+spec:
+  node: workernode-1-hostname
+  disks: ["aio:///dev/disk/by-id/<id>"]
+EOF
+```
+
+#### Create Storage Class Using Mayastor
+
+```bash
+cat <<EOF | kubectl create -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mayastor-1
+parameters:
+  protocol: nvmf
+  repl: "1"
+provisioner: io.openebs.csi-mayastor
+EOF
+```
+
+
 With that, you have successfully set up a production-level High-Available multi-node Kubernetes cluster using `kubeadmin`, `containerd`, `cilium`, `MetalLB`, and `kube-vip`. You can now deploy your applications and services on the cluster.
+
+## Other Useful Add-ons
+
+### cert-manager
+
+`cert-manager` is a powerful tool for managing TLS certificates in Kubernetes. It automates the process of obtaining, renewing, and managing certificates from various sources such as Let's Encrypt, HashiCorp Vault, and more.
+
+```bash
+helm install \
+  cert-manager oci://quay.io/jetstack/charts/cert-manager \
+  --version v1.19.1 \
+  --namespace cert-manager \
+  --create-namespace \
+  --set crds.enabled=true
+```
+
