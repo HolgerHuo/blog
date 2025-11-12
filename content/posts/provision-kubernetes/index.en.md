@@ -67,6 +67,7 @@ sudo mkdir -p /etc/modules-load.d/
 echo overlay | sudo tee /etc/modules-load.d/k8s.conf 
 sudo modprobe overlay
 sudo dnf install epel-release -y
+dnf update -y
 ```
 
 ## Install `containerd`
@@ -77,7 +78,7 @@ sudo dnf install epel-release -y
 sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo dnf install containerd.io -y
-echo "exclude=containerd containerd.io" | sudo tee -a /etc/yum.conf
+echo "exclude=containerd containerd.io kernel*" | sudo tee -a /etc/yum.conf
 containerd config default | sudo tee /etc/containerd/config.toml
 sed -i 's/^[[:space:]]*SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
 sudo systemctl enable --now containerd
@@ -101,6 +102,12 @@ exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
 sudo yum install -y kubelet kubeadm kubectl helm --setopt=disable_excludes=kubernetes
 sudo systemctl enable --now kubelet
+```
+
+Before proceeding with the Kubernetes setup, it is recommended to reboot the system to use the latest kernel version.
+
+```bash
+sudo reboot
 ```
 
 ## Setup Kubernetes
