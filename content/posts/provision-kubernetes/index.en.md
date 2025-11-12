@@ -253,9 +253,25 @@ EOF
 
 ## OpenEBS for Storage
 
-To achieve HA persistent storage, OpenEBS requires at least 3 nodes.
+{{< alert >}}
+OpenEBS is very heavy and generally eats up more then 4 GiB of memory on each control node. If you don't need such distributed storage solution, consider using nfs and host path provisioner.
+{{< /alert >}}
 
-### Label Storage Nodes
+To achieve HA persistent storage, OpenEBS requires at least 3 nodes, each will run etcd and operator to run OpenEBS.
+
+### Prepare Storage Nodes
+
+#### Login to Storage Nodes
+
+Enable `nvme_tcp` kernel module.
+
+```bash
+sudo mkdir -p /etc/modules-load.d/
+echo "nvme_tcp" | sudo tee /etc/modules-load.d/openebs.conf
+sudo modprobe nvme_tcp
+```
+
+#### Label host as Storage Nodes
 
 ```bash
 kubectl label node <node_name> openebs.io/engine=mayastor
@@ -263,11 +279,14 @@ kubectl label node <node_name> openebs.io/engine=mayastor
 
 ### Install OpenEBS
 
+Please update values according to your needs. 
+
 ```bash
 helm repo add openebs https://openebs.github.io/openebs
 helm install openebs \
     --namespace openebs openebs/openebs \
-    --create-namespace
+    --create-namespace \
+    --set loki.enabled=false --set alloy.enabled=false --set minio.enabled=false
 ```
 
 ### Setup Storage Class
@@ -279,7 +298,7 @@ Now you should already have `openebs-hostpath` and `openebs-single-replica` stor
 
 ```bash
 kubectl get sc # show predefined storage classes
-kubectl mayastor get block-devices # show available block devices
+ls -l /dev/disk/by-id/ # show available block devices
 cat <<EOF | kubectl create -f -
 apiVersion: "openebs.io/v1beta3"
 kind: DiskPool
@@ -307,8 +326,44 @@ provisioner: io.openebs.csi-mayastor
 EOF
 ```
 
+## csi-driver-nfs
 
-With that, you have successfully set up a production-level High-Available multi-node Kubernetes cluster using `kubeadmin`, `containerd`, `cilium`, `MetalLB`, and `kube-vip`. You can now deploy your applications and services on the cluster.
+If you have an existing NFS server, you can use it as a storage backend for your Kubernetes cluster by installing the `csi-driver-nfs` CSI driver.
+
+```bash
+helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
+    --namespace kube-system \
+    --version 4.12.0 \
+    --set externalSnapshotter.enabled=true \
+    --set controller.runOnControlPlane=true \
+    --set controller.replicas=2
+```
+
+### Create Storage Class
+
+```bash
+cat <<EOF | kubectl create -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: nfs-server.default.svc.cluster.local
+  share: /
+  # csi.storage.k8s.io/provisioner-secret is only needed for providing mountOptions in DeleteVolume
+  # csi.storage.k8s.io/provisioner-secret-name: "mount-options"
+  # csi.storage.k8s.io/provisioner-secret-namespace: "default"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+mountOptions:
+  - nfsvers=4.1
+EOF
+```
+
+With that, you have successfully set up a production-level High-Available multi-node Kubernetes cluster using `kubeadmin`, `containerd`, `cilium`, `MetalLB`, `OpenEBS`, and `kube-vip`. You can now deploy your applications and services on the cluster.
 
 ## Other Useful Add-ons
 
