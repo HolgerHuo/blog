@@ -77,7 +77,6 @@ sudo dnf update -y
 sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo dnf install containerd.io -y
-echo "exclude=containerd containerd.io kernel*" | sudo tee -a /etc/yum.conf
 containerd config default | sudo tee /etc/containerd/config.toml
 sed -i 's/^[[:space:]]*SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
 sudo systemctl enable --now containerd
@@ -106,6 +105,7 @@ sudo systemctl enable --now kubelet
 Before proceeding with the Kubernetes setup, it is recommended to reboot the system to use the latest kernel version.
 
 ```bash
+echo "exclude=containerd containerd.io kernel*" | sudo tee -a /etc/yum.conf
 sudo reboot
 ```
 
