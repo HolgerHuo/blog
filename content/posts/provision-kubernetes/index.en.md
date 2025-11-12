@@ -78,7 +78,7 @@ sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo dnf install containerd.io -y
 containerd config default | sudo tee /etc/containerd/config.toml
-sed -i 's/^[[:space:]]*SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+sudo sed -i 's/    SystemdCgroup = false/    SystemdCgroup = true/' /etc/containerd/config.toml
 sudo systemctl enable --now containerd
 cat <<EOF | sudo tee /etc/crictl.yaml
 runtime-endpoint: "unix:///run/containerd/containerd.sock"
@@ -98,7 +98,7 @@ gpgcheck=1
 gpgkey=https://pkgs.k8s.io/core:/stable:/v1.34/rpm/repodata/repomd.xml.key
 exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
-sudo yum install -y kubelet kubeadm kubectl helm --setopt=disable_excludes=kubernetes
+sudo yum install -y kubelet kubeadm kubectl --setopt=disable_excludes=kubernetes
 sudo systemctl enable --now kubelet
 ```
 
@@ -111,7 +111,13 @@ sudo reboot
 
 ## Setup Kubernetes
 
-To setup Kubernetes cluster, we will use `kubeadm`, the official tool for bootstrapping Kubernetes clusters. First, we will setup `kube-vip` using static pod. This provides VirtualIP for control plane nodes, so that we can access the cluster even if one of the control plane nodes goes down. Then we will bootstrap the cluster and join other nodes. Finally we will setup Cilium CNI and MetalLB for networking and load balancing.
+To setup Kubernetes cluster, we will use `kubeadm`, the official tool for bootstrapping Kubernetes clusters. First, we will setup `kube-vip` using static pod. This provides VirtualIP for control plane nodes, so that we can access the cluster even if one of the control plane nodes goes down. Then we will bootstrap the cluster and join other nodes. Finally we will setup Cilium CNI and MetalLB for networking and load balancing, OpenEBS for storage, and other usefull addons.
+
+Starting now, we should use `root` user.
+
+```bash
+sudo -i
+```
 
 ### kube-vip
 
@@ -185,6 +191,12 @@ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
 
 ## Networking and Load Balancing
+
+Now that we've setup the cluster, we can interact with the cluster from a local client. To proceed, you need to have `helm` installed on your local client.
+
+```bash
+dnf install -y helm
+```
 
 ### Setting Up Cilium CNI
 
